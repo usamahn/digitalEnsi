@@ -38,10 +38,10 @@ namespace digitalEnsi.Controllers
             }
 
             //var userIdentity = _mapper.Map<AppUser>(model);
-            Etudiant userIdentity=new Etudiant(){Id=model.Cin ,Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
+            Etudiant userIdentity=new Etudiant(){Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
 
 
-            var result = await _etudiantManager.CreateAsync(userIdentity, model.Password);
+            var result = await _etudiantManager.CreateAsync(userIdentity, model.Cin);
 
             if (!result.Succeeded) return new BadRequestObjectResult(result);
 
@@ -83,7 +83,7 @@ namespace digitalEnsi.Controllers
             Ensignant userIdentity=new Ensignant(){Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
 
 
-            var result = await _ensignantManager.CreateAsync(userIdentity, model.Password);
+            var result = await _ensignantManager.CreateAsync(userIdentity, model.Cin);
 
             if (!result.Succeeded) return new BadRequestObjectResult(result);
 

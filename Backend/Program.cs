@@ -47,13 +47,13 @@ namespace digitalEnsi
 
 
             //a changer ApplicationUser au model du l'admin
-            var userManager = serviceProvider.GetRequiredService<UserManager<Ensignant>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<Administrateur>>();
             var config = serviceProvider.GetRequiredService<IConfiguration>();
             var admin = await userManager.FindByEmailAsync(config["AdminCredentials:Email"]);
             
             if (admin == null)
             {
-                admin = new Ensignant()
+                admin = new Administrateur()
                 {
                     UserName = config["AdminCredentials:Email"],
                     Email = config["AdminCredentials:Email"],
