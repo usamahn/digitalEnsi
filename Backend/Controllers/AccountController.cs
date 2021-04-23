@@ -18,13 +18,15 @@ namespace digitalEnsi.Controllers
     {
         private readonly UserManager<Etudiant> _etudiantManager;
         private readonly UserManager<Ensignant> _ensignantManager;
+        private readonly UserManager<Administrateur> _administrateurManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtFactory _jwtFactory;
 
-        public AccountController(UserManager<Etudiant> etudiantManager, UserManager<Ensignant> ensignantManager,RoleManager<IdentityRole> roleManager,JwtFactory jwtFactory)
+        public AccountController(UserManager<Etudiant> etudiantManager, UserManager<Ensignant> ensignantManager,UserManager<Administrateur> administrateurManager,RoleManager<IdentityRole> roleManager,JwtFactory jwtFactory)
         {
             _etudiantManager = etudiantManager;
             _ensignantManager=ensignantManager;
+            _administrateurManager = administrateurManager;
             _roleManager = roleManager;
             _jwtFactory = jwtFactory;
         }
@@ -107,6 +109,28 @@ namespace digitalEnsi.Controllers
             if (await _ensignantManager.CheckPasswordAsync(userToVerify, credentials.Password))
             {
                 var jwt = await _jwtFactory.BuildUserAuthObjectAsync(userToVerify, _ensignantManager);
+                return new OkObjectResult(jwt);
+            }
+            return Unauthorized();
+        }
+
+
+
+
+        [HttpPost("Admin/login")]
+        public async Task<IActionResult> LoginAdmin([FromBody]AuthenetificationModel credentials){
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var userToVerify = await _administrateurManager.FindByNameAsync(credentials.UserName);
+            if (userToVerify==null)
+                userToVerify=await _administrateurManager.FindByEmailAsync(credentials.UserName);
+
+            if (userToVerify == null) return Unauthorized();
+            if (await _administrateurManager.CheckPasswordAsync(userToVerify, credentials.Password))
+            {
+                var jwt = await _jwtFactory.BuildUserAuthObjectAsync(userToVerify, _administrateurManager);
                 return new OkObjectResult(jwt);
             }
             return Unauthorized();

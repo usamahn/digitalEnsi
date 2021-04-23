@@ -76,7 +76,7 @@ const Admin = (props) => {
         }}
       />
       <div className="main-content" ref={mainContent}>
-      <AdminNavbar
+        <AdminNavbar
           {...props}
           brandText={getBrandText(props.location.pathname)}
         />

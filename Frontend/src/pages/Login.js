@@ -17,7 +17,7 @@
 */
 import React,{useState}  from "react";
 import Cookies from 'js-cookie'
-import {loginService} from 'actions/Authentification'
+import {loginService} from 'services/Authentification'
 
 import classnames from "classnames";
 import { useHistory } from "react-router-dom";

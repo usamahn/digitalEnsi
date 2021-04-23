@@ -24,6 +24,7 @@ namespace digitalEnsi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -75,6 +76,14 @@ namespace digitalEnsi
                     };
             });
             
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                builder =>
+                                {
+                                    builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();;
+                                });
+            });
 
             services.AddControllers();
 
@@ -97,6 +106,15 @@ namespace digitalEnsi
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             services.AddIdentityCore<Ensignant>(options=>{
+                options.Password.RequireDigit=false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 6;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            services.AddIdentityCore<Administrateur>(options=>{
                 options.Password.RequireDigit=false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
@@ -133,13 +151,15 @@ namespace digitalEnsi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "digitalEnsi v1"));
             }
 
-            app.UseHttpsRedirection();
-
+            //app.UseHttpsRedirection();
+            
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseAuthentication();
 
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

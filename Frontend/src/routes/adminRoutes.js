@@ -24,7 +24,7 @@ import Login from "pages/Login"
 import Tables from "views/examples/Tables.js";
 import Icons from "views/examples/Icons.js";
 
-var routes = [
+var adminRoutes = [
   {
     path: "/index",
     name: "Dashboard",

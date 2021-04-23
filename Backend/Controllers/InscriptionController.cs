@@ -15,7 +15,7 @@ namespace digitalEnsi.Controllers
     
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "JwtBearer",Policy = "RequireAdministratorRole")]
+    [Authorize(AuthenticationSchemes = "JwtBearer",Roles =  "Admin")]
     public class InscriptionController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -33,7 +33,7 @@ namespace digitalEnsi.Controllers
         public async Task<ActionResult<IEnumerable<Inscription>>> GetInscription()
         {
             var i =await _inscriptionService.GetInscriptions();
-           
+          
             
             return  i.ToList();
         }
@@ -72,6 +72,7 @@ namespace digitalEnsi.Controllers
         // POST: api/Inscription
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        
         public async Task<ActionResult<Inscription>> PostInscription(Inscription inscription)
         {
             await _inscriptionService.PostInscription(inscription);
