@@ -8,7 +8,7 @@ namespace digitalEnsi.Models
         public string LibelleService {get;set;}
 
         public List<Etudiant> Etudiants {get;set;}
-        public List<Ensignant> Ensignants {get;set;}
+        public List<Enseignant> Enseignants {get;set;}
         
          
 

@@ -22,12 +22,22 @@ namespace digitalEnsi.Services
             .Include(i=> i.Etudiant)
             .ToListAsync();
         }
+
         public async Task<ActionResult<Inscription>> GetInscription(int id){
             var inscription = await _context.Inscriptions.FindAsync(id);
 
             
 
             return inscription;
+        }
+
+        public async Task<List<Inscription>> GetInscriptionNoteByModuleGroupe(string année_Universitaire,int groupeId,int moduleId){
+            return await _context.Inscriptions
+                                .Where(i=>i.Année_Universitaire==année_Universitaire&&i.GroupeId==groupeId)
+                                .Include(i=>i.Etudiant)
+                                .Include(i=>i.Notes.Where(n=>n.ModuleId==moduleId))
+                                .ThenInclude(n=>n.Module)
+                                .ToListAsync();                                                       
         }
         public async Task<IActionResult> PutInscription(int id, Inscription inscription){
             if (id != inscription.InscriptionId)

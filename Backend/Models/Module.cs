@@ -10,6 +10,7 @@ namespace digitalEnsi.Models
 
         public float VolumeHoraire {get;set;}
         public int Semestre {get;set;}
+        public int Niveau {get;set;}
 
         public List<Filiere> Filieres {get;set;}
         public List<Note> Notes {get;set;}

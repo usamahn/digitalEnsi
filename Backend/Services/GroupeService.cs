@@ -20,6 +20,21 @@ namespace digitalEnsi.Services
         public async Task<ActionResult<IEnumerable<Groupe>>> GetGroupe(){
             return await _context.Groupe.ToListAsync();
         }
+
+        public async Task<List<Seance>> GetSeancesByGroupe(string nomGroupe){
+            var query=  _context.Groupe
+                                .Include(g=>g.Seances)
+                                .ThenInclude(s=>s.Enseignant)
+                                .Include(g=>g.Seances)
+                                .ThenInclude(s=>s.Module);
+                                
+            var result =await  query.Where(g=>g.Libellé_groupe==nomGroupe).Select(g=>g.Seances).FirstOrDefaultAsync();
+            return result;
+                                
+        }
+
+        
+
         public async Task<ActionResult<Groupe>> GetGroupe(int id){
             var groupe = await _context.Groupe.FindAsync(id);
 

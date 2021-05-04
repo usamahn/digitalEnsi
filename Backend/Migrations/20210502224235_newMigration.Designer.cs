@@ -10,8 +10,8 @@ using digitalEnsi;
 namespace digitalEnsi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210419125715_Createdb")]
-    partial class Createdb
+    [Migration("20210502224235_newMigration")]
+    partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,19 +21,19 @@ namespace digitalEnsi.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EnsignantService", b =>
+            modelBuilder.Entity("EnseignantService", b =>
                 {
-                    b.Property<string>("EnsignantsId")
+                    b.Property<string>("EnseignantsId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ServicesServiceId")
                         .HasColumnType("int");
 
-                    b.HasKey("EnsignantsId", "ServicesServiceId");
+                    b.HasKey("EnseignantsId", "ServicesServiceId");
 
                     b.HasIndex("ServicesServiceId");
 
-                    b.ToTable("EnsignantService");
+                    b.ToTable("EnseignantService");
                 });
 
             modelBuilder.Entity("EtudiantService", b =>
@@ -327,6 +327,9 @@ namespace digitalEnsi.Migrations
                     b.Property<string>("Libellé_groupe")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Niveau")
+                        .HasColumnType("int");
+
                     b.HasKey("groupeId");
 
                     b.ToTable("Groupe");
@@ -433,7 +436,7 @@ namespace digitalEnsi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("EnsignantId")
+                    b.Property<string>("EnseignantId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<TimeSpan>("HeureDeb")
@@ -453,7 +456,7 @@ namespace digitalEnsi.Migrations
 
                     b.HasKey("SeanceId");
 
-                    b.HasIndex("EnsignantId");
+                    b.HasIndex("EnseignantId");
 
                     b.HasIndex("ModuleId");
 
@@ -484,11 +487,11 @@ namespace digitalEnsi.Migrations
                     b.ToTable("Administrateurs");
                 });
 
-            modelBuilder.Entity("digitalEnsi.Models.Ensignant", b =>
+            modelBuilder.Entity("digitalEnsi.Models.Enseignant", b =>
                 {
                     b.HasBaseType("digitalEnsi.Models.ApplicationUser");
 
-                    b.ToTable("Ensignants");
+                    b.ToTable("Enseignants");
                 });
 
             modelBuilder.Entity("digitalEnsi.Models.Etudiant", b =>
@@ -498,11 +501,11 @@ namespace digitalEnsi.Migrations
                     b.ToTable("Etudiants");
                 });
 
-            modelBuilder.Entity("EnsignantService", b =>
+            modelBuilder.Entity("EnseignantService", b =>
                 {
-                    b.HasOne("digitalEnsi.Models.Ensignant", null)
+                    b.HasOne("digitalEnsi.Models.Enseignant", null)
                         .WithMany()
-                        .HasForeignKey("EnsignantsId")
+                        .HasForeignKey("EnseignantsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -659,9 +662,9 @@ namespace digitalEnsi.Migrations
 
             modelBuilder.Entity("digitalEnsi.Models.Seance", b =>
                 {
-                    b.HasOne("digitalEnsi.Models.Ensignant", "Ensignant")
+                    b.HasOne("digitalEnsi.Models.Enseignant", "Enseignant")
                         .WithMany("Seances")
-                        .HasForeignKey("EnsignantId");
+                        .HasForeignKey("EnseignantId");
 
                     b.HasOne("digitalEnsi.Models.Module", "Module")
                         .WithMany("Seances")
@@ -675,7 +678,7 @@ namespace digitalEnsi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Ensignant");
+                    b.Navigation("Enseignant");
 
                     b.Navigation("Groupe");
 
@@ -691,11 +694,11 @@ namespace digitalEnsi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("digitalEnsi.Models.Ensignant", b =>
+            modelBuilder.Entity("digitalEnsi.Models.Enseignant", b =>
                 {
                     b.HasOne("digitalEnsi.Models.ApplicationUser", null)
                         .WithOne()
-                        .HasForeignKey("digitalEnsi.Models.Ensignant", "Id")
+                        .HasForeignKey("digitalEnsi.Models.Enseignant", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
@@ -740,7 +743,7 @@ namespace digitalEnsi.Migrations
                     b.Navigation("Absences");
                 });
 
-            modelBuilder.Entity("digitalEnsi.Models.Ensignant", b =>
+            modelBuilder.Entity("digitalEnsi.Models.Enseignant", b =>
                 {
                     b.Navigation("Seances");
                 });

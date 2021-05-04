@@ -12,7 +12,7 @@ namespace digitalEnsi.Models
         public Etudiant Etudiant {get;set;}
         public int GroupeId {get;set;}
         public Groupe Groupe {get;set;}
-        public int FiliereId  {get;set;}
+        public int? FiliereId  {get;set;}
         public Filiere Filiere {get;set;}
 
         public List<Absence> Absences {get;set;}

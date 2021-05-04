@@ -1,3 +1,5 @@
+using System;
+
 namespace digitalEnsi.Models.DTO
 {
     public class RegistrationModel{
@@ -7,6 +9,9 @@ namespace digitalEnsi.Models.DTO
         public  string Password { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
+
+        public string DateNaissance {get;set;}
+        public string PhoneNumber { get; set; }
 
         
 

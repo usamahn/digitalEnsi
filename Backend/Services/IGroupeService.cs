@@ -10,6 +10,7 @@ namespace digitalEnsi.Services
     public interface IGroupeService
     {
         Task<ActionResult<IEnumerable<Groupe>>> GetGroupe();
+        Task<List<Seance>> GetSeancesByGroupe(string nomGroupe);
         Task<ActionResult<Groupe>> GetGroupe(int id);
         Task<IActionResult> PutGroupe(int id, Groupe groupe);
         Task<ActionResult<Groupe>> PostGroupe(Groupe groupe);

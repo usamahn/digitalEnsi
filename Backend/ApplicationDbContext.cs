@@ -17,7 +17,7 @@ namespace digitalEnsi
 
       
         public DbSet<Etudiant> Etudiants {get;set;}
-        public DbSet<Ensignant> Ensignants {get;set;}
+        public DbSet<Enseignant> Enseignants {get;set;}
         public DbSet<Filiere> Filieres {get;set;}
         public DbSet<Groupe> Groupe {get;set;}
         

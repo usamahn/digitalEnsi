@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace digitalEnsi.Models
 {
-    [Table("Ensignants")]
-    public class Ensignant:ApplicationUser{
+    [Table("Enseignants")]
+    public class Enseignant:ApplicationUser{
         
         public List<Seance> Seances {get;set;}
         public List<Service> Services {get;set;}

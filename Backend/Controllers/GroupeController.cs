@@ -8,32 +8,44 @@ using Microsoft.EntityFrameworkCore;
 using digitalEnsi;
 using digitalEnsi.Models;
 using digitalEnsi.Services;
+using AutoMapper;
+using digitalEnsi.Models.DTO;
 
 namespace digitalEnsi.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class GroupeController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
 
         private IGroupeService _groupeService;
+        private readonly IMapper _mapper;
 
-        public GroupeController(ApplicationDbContext context,IGroupeService groupeService)
+
+        public GroupeController(ApplicationDbContext context,IGroupeService groupeService,IMapper mapper)
         {
-            _context = context;
+            //_context = context;
             _groupeService=groupeService;
+            _mapper=mapper;
         }
 
         // GET: api/Groupe
-        [HttpGet]
+        [HttpGet("api/Groupe")]
         public async Task<ActionResult<IEnumerable<Groupe>>> GetGroupe()
         {
             return await _groupeService.GetGroupe();
         }
+        [HttpGet("api/Groupe/{nomGroupe}/Seances")]
+        public async Task<IEnumerable<SeanceEmploiModel>> GetSeanceByGroupe(string nomGroupe)
+        {
+            var seances =await _groupeService.GetSeancesByGroupe(nomGroupe);
+            return _mapper.Map<IEnumerable<SeanceEmploiModel>>(seances);
+            
+        }
 
         // GET: api/Groupe/5
-        [HttpGet("{id}")]
+        [HttpGet("api/Groupe/{id}")]
         public async Task<ActionResult<Groupe>> GetGroupe(int id)
         {
             var groupe =await  _groupeService.GetGroupe(id);
@@ -48,7 +60,7 @@ namespace digitalEnsi.Controllers
 
         // PUT: api/Groupe/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("api/Groupe/{id}")]
         public async Task<IActionResult> PutGroupe(int id, Groupe groupe)
         {
 
@@ -65,7 +77,7 @@ namespace digitalEnsi.Controllers
 
         // POST: api/Groupe
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("api/Groupe")]
         public async Task<ActionResult<Groupe>> PostGroupe(Groupe groupe)
         {
             await _groupeService.PostGroupe(groupe);
@@ -74,7 +86,7 @@ namespace digitalEnsi.Controllers
         }
 
         // DELETE: api/Groupe/5
-        [HttpDelete("{id}")]
+        [HttpDelete("api/Groupe/{id}")]
         public async Task<IActionResult> DeleteGroupe(int id)
         {
             var groupe = await _groupeService.DeleteGroupe(id);

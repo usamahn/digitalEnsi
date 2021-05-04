@@ -142,3 +142,5 @@ F:\ENSI\2eme\S2\digitalEnsi\Backend\obj\Debug\net5.0\digitalEnsi.dll
 F:\ENSI\2eme\S2\digitalEnsi\Backend\obj\Debug\net5.0\ref\digitalEnsi.dll
 F:\ENSI\2eme\S2\digitalEnsi\Backend\obj\Debug\net5.0\digitalEnsi.pdb
 F:\ENSI\2eme\S2\digitalEnsi\Backend\obj\Debug\net5.0\digitalEnsi.genruntimeconfig.cache
+F:\ENSI\2eme\S2\digitalEnsi\Backend\bin\Debug\net5.0\AutoMapper.dll
+F:\ENSI\2eme\S2\digitalEnsi\Backend\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

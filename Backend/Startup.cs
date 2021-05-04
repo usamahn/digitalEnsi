@@ -19,6 +19,8 @@ using digitalEnsi.Factories;
 using digitalEnsi.Models;
 using digitalEnsi.Models.Configuration;
 using digitalEnsi.Services;
+using AutoMapper;
+using digitalEnsi.Profiles;
 
 namespace digitalEnsi
 {
@@ -50,6 +52,10 @@ namespace digitalEnsi
             services.AddSingleton<JwtFactory>();
             services.AddScoped<IGroupeService, GroupeService>();
             services.AddScoped<IInscriptionService, InscriptionService>();
+            services.AddScoped<IEtudiantService, EtudiantService>();
+            services.AddScoped<ISeanceService, SeanceService>();
+            services.AddScoped<IEnseignantService, EnseignantService>();
+            services.AddScoped<IModuleService, ModuleService>();
             services.AddAuthentication(option => {
                 option.DefaultAuthenticateScheme="JwtBearer";
                 option.DefaultChallengeScheme="JwtBearer";
@@ -85,7 +91,10 @@ namespace digitalEnsi
                                 });
             });
 
+            services.AddAutoMapper(options => options.AddProfile<MappingProfile>());
+
             services.AddControllers();
+           
 
             services.AddDbContext<ApplicationDbContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("myConnectionString")));
             services.AddIdentity<ApplicationUser,IdentityRole>(options=>{
@@ -105,7 +114,7 @@ namespace digitalEnsi
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-            services.AddIdentityCore<Ensignant>(options=>{
+            services.AddIdentityCore<Enseignant>(options=>{
                 options.Password.RequireDigit=false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;

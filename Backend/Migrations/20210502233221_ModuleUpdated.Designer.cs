@@ -10,16 +10,61 @@ using digitalEnsi;
 namespace digitalEnsi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210414164038_idAdded")]
-    partial class idAdded
+    [Migration("20210502233221_ModuleUpdated")]
+    partial class ModuleUpdated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("EnseignantService", b =>
+                {
+                    b.Property<string>("EnseignantsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ServicesServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EnseignantsId", "ServicesServiceId");
+
+                    b.HasIndex("ServicesServiceId");
+
+                    b.ToTable("EnseignantService");
+                });
+
+            modelBuilder.Entity("EtudiantService", b =>
+                {
+                    b.Property<string>("EtudiantsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ServicesServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EtudiantsId", "ServicesServiceId");
+
+                    b.HasIndex("ServicesServiceId");
+
+                    b.ToTable("EtudiantService");
+                });
+
+            modelBuilder.Entity("FiliereModule", b =>
+                {
+                    b.Property<int>("FilieresFiliereId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModulesModuleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FilieresFiliereId", "ModulesModuleId");
+
+                    b.HasIndex("ModulesModuleId");
+
+                    b.ToTable("FiliereModule");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -152,6 +197,31 @@ namespace digitalEnsi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("digitalEnsi.Models.Absence", b =>
+                {
+                    b.Property<int>("AbsenceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("InscriptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeanceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AbsenceId");
+
+                    b.HasIndex("InscriptionId");
+
+                    b.HasIndex("SeanceId");
+
+                    b.ToTable("Absences");
+                });
+
             modelBuilder.Entity("digitalEnsi.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -160,9 +230,15 @@ namespace digitalEnsi.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Cin")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateNaissance")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -223,6 +299,24 @@ namespace digitalEnsi.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("digitalEnsi.Models.Filiere", b =>
+                {
+                    b.Property<int>("FiliereId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Capacité")
+                        .HasColumnType("int");
+
+                    b.Property<string>("libelleFiliere")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FiliereId");
+
+                    b.ToTable("Filieres");
+                });
+
             modelBuilder.Entity("digitalEnsi.Models.Groupe", b =>
                 {
                     b.Property<int>("groupeId")
@@ -232,6 +326,9 @@ namespace digitalEnsi.Migrations
 
                     b.Property<string>("Libellé_groupe")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Niveau")
+                        .HasColumnType("int");
 
                     b.HasKey("groupeId");
 
@@ -254,6 +351,9 @@ namespace digitalEnsi.Migrations
                     b.Property<string>("EtudiantId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("FiliereId")
+                        .HasColumnType("int");
+
                     b.Property<int>("GroupeId")
                         .HasColumnType("int");
 
@@ -264,16 +364,137 @@ namespace digitalEnsi.Migrations
 
                     b.HasIndex("EtudiantId");
 
+                    b.HasIndex("FiliereId");
+
                     b.HasIndex("GroupeId");
 
                     b.ToTable("Inscriptions");
                 });
 
-            modelBuilder.Entity("digitalEnsi.Models.Ensignant", b =>
+            modelBuilder.Entity("digitalEnsi.Models.Module", b =>
+                {
+                    b.Property<int>("ModuleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LibelleModule")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Niveau")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Semestre")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<float>("VolumeHoraire")
+                        .HasColumnType("real");
+
+                    b.HasKey("ModuleId");
+
+                    b.ToTable("Modules");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Note", b =>
+                {
+                    b.Property<int>("NoteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("InscriptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("NoteCc")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NoteDs")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NoteExamenP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NoteExamenR")
+                        .HasColumnType("real");
+
+                    b.HasKey("NoteId");
+
+                    b.HasIndex("InscriptionId");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("Notes");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Seance", b =>
+                {
+                    b.Property<int>("SeanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EnseignantId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<TimeSpan>("HeureDeb")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("HeureFin")
+                        .HasColumnType("time");
+
+                    b.Property<int>("Jour")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("groupeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SeanceId");
+
+                    b.HasIndex("EnseignantId");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("groupeId");
+
+                    b.ToTable("Seances");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Service", b =>
+                {
+                    b.Property<int>("ServiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("LibelleService")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ServiceId");
+
+                    b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Administrateur", b =>
                 {
                     b.HasBaseType("digitalEnsi.Models.ApplicationUser");
 
-                    b.ToTable("Ensignants");
+                    b.ToTable("Administrateurs");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Enseignant", b =>
+                {
+                    b.HasBaseType("digitalEnsi.Models.ApplicationUser");
+
+                    b.ToTable("Enseignants");
                 });
 
             modelBuilder.Entity("digitalEnsi.Models.Etudiant", b =>
@@ -281,6 +502,51 @@ namespace digitalEnsi.Migrations
                     b.HasBaseType("digitalEnsi.Models.ApplicationUser");
 
                     b.ToTable("Etudiants");
+                });
+
+            modelBuilder.Entity("EnseignantService", b =>
+                {
+                    b.HasOne("digitalEnsi.Models.Enseignant", null)
+                        .WithMany()
+                        .HasForeignKey("EnseignantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("digitalEnsi.Models.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServicesServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EtudiantService", b =>
+                {
+                    b.HasOne("digitalEnsi.Models.Etudiant", null)
+                        .WithMany()
+                        .HasForeignKey("EtudiantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("digitalEnsi.Models.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServicesServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FiliereModule", b =>
+                {
+                    b.HasOne("digitalEnsi.Models.Filiere", null)
+                        .WithMany()
+                        .HasForeignKey("FilieresFiliereId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("digitalEnsi.Models.Module", null)
+                        .WithMany()
+                        .HasForeignKey("ModulesModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -334,11 +600,36 @@ namespace digitalEnsi.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("digitalEnsi.Models.Absence", b =>
+                {
+                    b.HasOne("digitalEnsi.Models.Inscription", "Inscription")
+                        .WithMany("Absences")
+                        .HasForeignKey("InscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("digitalEnsi.Models.Seance", "Seance")
+                        .WithMany("Absences")
+                        .HasForeignKey("SeanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Inscription");
+
+                    b.Navigation("Seance");
+                });
+
             modelBuilder.Entity("digitalEnsi.Models.Inscription", b =>
                 {
                     b.HasOne("digitalEnsi.Models.Etudiant", "Etudiant")
                         .WithMany("Inscriptions")
                         .HasForeignKey("EtudiantId");
+
+                    b.HasOne("digitalEnsi.Models.Filiere", "Filiere")
+                        .WithMany("Inscriptions")
+                        .HasForeignKey("FiliereId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("digitalEnsi.Models.Groupe", "Groupe")
                         .WithMany("Inscription")
@@ -348,14 +639,69 @@ namespace digitalEnsi.Migrations
 
                     b.Navigation("Etudiant");
 
+                    b.Navigation("Filiere");
+
                     b.Navigation("Groupe");
                 });
 
-            modelBuilder.Entity("digitalEnsi.Models.Ensignant", b =>
+            modelBuilder.Entity("digitalEnsi.Models.Note", b =>
+                {
+                    b.HasOne("digitalEnsi.Models.Inscription", "Inscription")
+                        .WithMany("Notes")
+                        .HasForeignKey("InscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("digitalEnsi.Models.Module", "Module")
+                        .WithMany("Notes")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Inscription");
+
+                    b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Seance", b =>
+                {
+                    b.HasOne("digitalEnsi.Models.Enseignant", "Enseignant")
+                        .WithMany("Seances")
+                        .HasForeignKey("EnseignantId");
+
+                    b.HasOne("digitalEnsi.Models.Module", "Module")
+                        .WithMany("Seances")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("digitalEnsi.Models.Groupe", "Groupe")
+                        .WithMany("Seances")
+                        .HasForeignKey("groupeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Enseignant");
+
+                    b.Navigation("Groupe");
+
+                    b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Administrateur", b =>
                 {
                     b.HasOne("digitalEnsi.Models.ApplicationUser", null)
                         .WithOne()
-                        .HasForeignKey("digitalEnsi.Models.Ensignant", "Id")
+                        .HasForeignKey("digitalEnsi.Models.Administrateur", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Enseignant", b =>
+                {
+                    b.HasOne("digitalEnsi.Models.ApplicationUser", null)
+                        .WithOne()
+                        .HasForeignKey("digitalEnsi.Models.Enseignant", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
@@ -369,9 +715,40 @@ namespace digitalEnsi.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("digitalEnsi.Models.Filiere", b =>
+                {
+                    b.Navigation("Inscriptions");
+                });
+
             modelBuilder.Entity("digitalEnsi.Models.Groupe", b =>
                 {
                     b.Navigation("Inscription");
+
+                    b.Navigation("Seances");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Inscription", b =>
+                {
+                    b.Navigation("Absences");
+
+                    b.Navigation("Notes");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Module", b =>
+                {
+                    b.Navigation("Notes");
+
+                    b.Navigation("Seances");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Seance", b =>
+                {
+                    b.Navigation("Absences");
+                });
+
+            modelBuilder.Entity("digitalEnsi.Models.Enseignant", b =>
+                {
+                    b.Navigation("Seances");
                 });
 
             modelBuilder.Entity("digitalEnsi.Models.Etudiant", b =>

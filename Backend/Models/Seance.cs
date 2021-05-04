@@ -13,9 +13,9 @@ namespace digitalEnsi.Models
 
         public Groupe Groupe {get;set;}
 
-        public string EnsignantId {get;set;}
+        public string EnseignantId {get;set;}
 
-        public Ensignant Ensignant {get;set;}
+        public Enseignant Enseignant {get;set;}
 
         public int ModuleId  {get;set;}
         public Module Module {get;set;}

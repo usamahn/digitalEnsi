@@ -26,6 +26,8 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
 
+import adminRoutes from "routes/adminRoutes"
+
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
@@ -52,7 +54,7 @@ const Admin = (props) => {
     });
   };
 
-  const getBrandText = (path) => {
+  const getBrandText = (routes,path) => {
     for (let i = 0; i < routes.length; i++) {
       if (
         props.location.pathname.indexOf(routes[i].layout + routes[i].path) !==
@@ -68,7 +70,7 @@ const Admin = (props) => {
     <>
       <Sidebar
         {...props}
-        routes={routes}
+        routes={adminRoutes}
         logo={{
           innerLink: "/admin/index",
           imgSrc: require("../assets/img/brand/argon-react.png").default,
@@ -78,10 +80,10 @@ const Admin = (props) => {
       <div className="main-content" ref={mainContent}>
       <AdminNavbar
           {...props}
-          brandText={getBrandText(props.location.pathname)}
+          brandText={getBrandText(adminRoutes,props.location.pathname)}
         />
         <Switch>
-          {getRoutes(routes)}
+          {getRoutes(adminRoutes)}
           <Redirect from="*" to="/admin/index" />
         </Switch>
         <Container fluid>

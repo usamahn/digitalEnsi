@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using digitalEnsi.Factories;
 using digitalEnsi.Models;
 using digitalEnsi.Models.DTO;
+using AutoMapper;
 
 namespace digitalEnsi.Controllers
 {
@@ -17,33 +18,38 @@ namespace digitalEnsi.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<Etudiant> _etudiantManager;
-        private readonly UserManager<Ensignant> _ensignantManager;
+        private readonly UserManager<Enseignant> _EnseignantManager;
         private readonly UserManager<Administrateur> _administrateurManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtFactory _jwtFactory;
+        private readonly IMapper _mapper;
 
-        public AccountController(UserManager<Etudiant> etudiantManager, UserManager<Ensignant> ensignantManager,UserManager<Administrateur> administrateurManager,RoleManager<IdentityRole> roleManager,JwtFactory jwtFactory)
+        public AccountController(UserManager<Etudiant> etudiantManager, UserManager<Enseignant> EnseignantManager,UserManager<Administrateur> administrateurManager,RoleManager<IdentityRole> roleManager,JwtFactory jwtFactory,IMapper mapper)
         {
             _etudiantManager = etudiantManager;
-            _ensignantManager=ensignantManager;
+            _EnseignantManager=EnseignantManager;
             _administrateurManager = administrateurManager;
             _roleManager = roleManager;
             _jwtFactory = jwtFactory;
+            _mapper= mapper;
         }
 
-        [HttpPost("Etudiant/Register")]
+        [HttpPost("api/Etudiants/Register")]
         public async Task<IActionResult> RegisterEtudiant([FromBody]RegistrationModel model) //
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            //var userIdentity = _mapper.Map<AppUser>(model);
-            Etudiant userIdentity=new Etudiant(){Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
+            if(model.Password==null){
+                model.Password=model.Cin;
+            }
+            var userIdentity = _mapper.Map<Etudiant>(model);
+            //Etudiant userIdentity=new Etudiant(){Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
 
 
             var result = await _etudiantManager.CreateAsync(userIdentity, model.Cin);
+            
 
             if (!result.Succeeded) return new BadRequestObjectResult(result);
 
@@ -81,11 +87,11 @@ namespace digitalEnsi.Controllers
                 return BadRequest(ModelState);
             }
 
-            //var userIdentity = _mapper.Map<AppUser>(model);
-            Ensignant userIdentity=new Ensignant(){Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
+            var userIdentity = _mapper.Map<Enseignant>(model);
+            //Enseignant userIdentity=new Enseignant(){Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
 
 
-            var result = await _ensignantManager.CreateAsync(userIdentity, model.Cin);
+            var result = await _EnseignantManager.CreateAsync(userIdentity, model.Cin);
 
             if (!result.Succeeded) return new BadRequestObjectResult(result);
 
@@ -101,14 +107,14 @@ namespace digitalEnsi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var userToVerify = await _ensignantManager.FindByNameAsync(credentials.UserName);
+            var userToVerify = await _EnseignantManager.FindByNameAsync(credentials.UserName);
             if (userToVerify==null)
-                userToVerify=await _ensignantManager.FindByEmailAsync(credentials.UserName);
+                userToVerify=await _EnseignantManager.FindByEmailAsync(credentials.UserName);
 
             if (userToVerify == null) return Unauthorized();
-            if (await _ensignantManager.CheckPasswordAsync(userToVerify, credentials.Password))
+            if (await _EnseignantManager.CheckPasswordAsync(userToVerify, credentials.Password))
             {
-                var jwt = await _jwtFactory.BuildUserAuthObjectAsync(userToVerify, _ensignantManager);
+                var jwt = await _jwtFactory.BuildUserAuthObjectAsync(userToVerify, _EnseignantManager);
                 return new OkObjectResult(jwt);
             }
             return Unauthorized();

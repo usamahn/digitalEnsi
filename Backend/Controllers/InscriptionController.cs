@@ -15,7 +15,7 @@ namespace digitalEnsi.Controllers
     
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "JwtBearer",Roles =  "Admin")]
+    //[Authorize(AuthenticationSchemes = "JwtBearer",Roles =  "Admin")]
     public class InscriptionController : ControllerBase
     {
         private readonly ApplicationDbContext _context;

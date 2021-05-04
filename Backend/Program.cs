@@ -31,8 +31,8 @@ namespace digitalEnsi
 
         public static async Task Initialize(IServiceProvider serviceProvider)
         {   
-            //var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            //context.Database.EnsureCreated();
+            var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            context.Database.EnsureCreated();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var roleNames = new List<string>(){"Admin","Enseignant","Etudiant"};
             IdentityResult result;

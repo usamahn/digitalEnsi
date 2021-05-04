@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,6 +8,7 @@ namespace digitalEnsi.Models
     public class ApplicationUser:IdentityUser{
         
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
         public string Cin {get;set;}
         public string Nom {get;set;}
         public string Prenom {get;set;}
