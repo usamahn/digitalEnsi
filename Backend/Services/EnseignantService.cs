@@ -24,6 +24,15 @@ namespace digitalEnsi.Services
             return await _context.Enseignants.ToListAsync();
 
         }
+            public async Task<Enseignant> GetEnseignantByCinAsync(string cin,bool includeDetails=true){
+            if (includeDetails)
+            return await _context.Enseignants.Where(e=>e.Cin==cin)
+                                           .Include(e=>e.Seances)
+                                           .FirstAsync();
+            else return await _context.Enseignants.Where(e=>e.Cin==cin).SingleAsync();
+            
+
+        }
 
             public async Task UpdateEnseignantAsync(UserUpdateModel newEnseignant){
             //TODO : ki ybadel l mail w ybadel el tel lezm logique wahdou

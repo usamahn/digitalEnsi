@@ -36,7 +36,7 @@ import NoteMatiereGroupeModal from "modals/NoteMatiereGroupeModal"
 import Header from "components/Headers/Header.js";
 import {getGroupes} from "services/GroupeService"
 
-import {getModuleByNiveau,getModuleByNivGetNoteModuleParGroupeeau} from "services/ModuleService"
+import {getModuleByNiveau,getNoteModuleParGroupe} from "services/ModuleService"
 
 
 
@@ -72,7 +72,7 @@ const Notes = () => {
   )
 
   const onModuleClicked=async (année_Universitaire,groupeId,moduleId)=>{
-    const Notes=await getModuleByNivGetNoteModuleParGroupeeau(année_Universitaire,groupeId,moduleId)
+    const Notes=await getNoteModuleParGroupe(groupeId,moduleId,année_Universitaire)
     console.log(Notes.data);
     setNoteData(Notes.data)
     setNoteMatiereGroupeModalOpen(true)

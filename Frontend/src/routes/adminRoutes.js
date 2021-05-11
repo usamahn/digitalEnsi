@@ -22,6 +22,7 @@ import Enseignants from "pages/admin/Enseignants"
 import Matieres from "pages/admin/Matieres"
 import Notes from "pages/admin/Notes"
 import Emplois from "pages/admin/Emplois"
+import Inscriptions from "pages/admin/Inscriptions"
 
 
 import Profile from "views/examples/Profile.js";
@@ -45,6 +46,13 @@ var adminRoutes = [
     name: "Etudiants",
     icon: "ni ni-tv-2 text-primary",
     component: Etudiants,
+    layout: "/admin",
+  },
+  {
+    path: "/inscriptions",
+    name: "Inscriptions",
+    icon: "ni ni-tv-2 text-primary",
+    component: Inscriptions,
     layout: "/admin",
   },
   {

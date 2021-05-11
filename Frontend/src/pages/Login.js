@@ -62,8 +62,14 @@ const Login = () => {
       for (const [key, value] of Object.entries(resp.data)) {
         Cookies.set(key, value);
       }
+      Cookies.set("Authorization","bearer"+" "+resp.data.bearerToken);
       Cookies.set("isAuthentificated", true);
-      history.push('/admin/index')
+      console.log(JSON.parse(Cookies.get('role'))[0]);
+      switch(JSON.parse(Cookies.get('role'))[0]){ //les cookies sont de type chaine de caracteres, il faut les parser pour les rendre tableau (role est un tableau)
+        case "Admin":history.push('/admin/index'); break;
+        case "Enseignant":history.push('/Enseignant');break;
+        case "Etudiant":history.push('/Etudiant');break;
+    }
   
     }
     

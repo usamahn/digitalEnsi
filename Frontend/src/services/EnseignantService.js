@@ -19,3 +19,13 @@ export async function UpdateEnseignant(enseignant){
                     })
     return resp
 }
+
+
+export async function DeleteEnseignant(cin){   
+    console.log("deleted"); 
+    const resp = await axios.delete("http://localhost:5000/api/Enseignant/"+cin)
+                    .catch(error =>{
+                        return error.response;
+                    })
+    return resp
+}

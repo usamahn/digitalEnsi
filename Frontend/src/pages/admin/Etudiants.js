@@ -44,7 +44,7 @@ import Header from "components/Headers/Header.js";
 import AjoutUtilisateurModal from "modals/AjoutUtilisateurModal"
 import ModifUtilisateurModal from "modals/ModifUtilisateurModal"
 import {CreateEtudiantAccount} from "services/AccountService"
-import {UpdateEtudiant} from "services/EtudiantService"
+import {UpdateEtudiant,DeleteEtudiant} from "services/EtudiantService"
 
 const Etudiants = () => {
   const [data, setData] = useState([])
@@ -99,7 +99,7 @@ const Etudiants = () => {
                           <td>{etudiant.email}</td>
                           <td>{etudiant.phoneNumber}</td>
                           <td className="text-right">
-                              <ModifUtilisateurModal UpdateUser={UpdateEtudiant} user={etudiant} refetch={getData}/>
+                              <ModifUtilisateurModal UpdateUser={UpdateEtudiant} DeleteUser={DeleteEtudiant} user={etudiant} refetch={getData}/>
      
                           </td>
                         </tr>
@@ -113,7 +113,7 @@ const Etudiants = () => {
             </Card>
           </div>
         </Row>
-        <AjoutUtilisateurModal isOpen={ajoutModalOpen} setModal={setAjoutModalOpen} addUser={CreateEtudiantAccount} refetch={getData()}/>
+        <AjoutUtilisateurModal isOpen={ajoutModalOpen} setModal={setAjoutModalOpen} addUser={CreateEtudiantAccount} refetch={getData}/>
         
       </Container>
       

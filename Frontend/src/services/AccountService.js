@@ -9,3 +9,13 @@ export async function CreateEtudiantAccount(etudiant){
                     })
     return resp
 }
+
+
+
+export async function CreateEnseignantAccount(enseignant){    
+    const resp = await axios.post("http://localhost:5000/api/Enseignants/Register",enseignant)
+                    .catch(error =>{
+                        return error.response;
+                    })
+    return resp
+}

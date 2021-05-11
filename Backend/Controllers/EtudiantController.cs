@@ -30,8 +30,17 @@ namespace digitalEnsi.Controllers
         }
 
         [HttpGet("api/Etudiants")]
-        public async Task<IEnumerable<EtudiantInfoModel>> GetEtudiants(){
-            var etudiants= await _etudiantService.GetEtudiantsAsync() ;
+        public async Task<IEnumerable<EtudiantInfoModel>> GetEtudiants([FromQuery] string année_Universitaire,[FromQuery]int groupeId){
+            IEnumerable<Etudiant> etudiants;
+            if(groupeId!=0){
+                if(String.IsNullOrWhiteSpace(année_Universitaire))
+                    année_Universitaire=Utils.Utils.getAnnéeUniversitaireActuelle();
+                etudiants= await _etudiantService.GetEtudiantsAsync(année_Universitaire,groupeId) ;
+                return _mapper.Map<IEnumerable<EtudiantInfoModel>>(etudiants);
+            }
+            
+            
+            etudiants= await _etudiantService.GetEtudiantsAsync() ;
             return _mapper.Map<IEnumerable<EtudiantInfoModel>>(etudiants);
             //return etudiants.Select(_mapper.Map<EtudiantInfoModel>);
         }

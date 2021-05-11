@@ -38,6 +38,7 @@ namespace digitalEnsi
         public void ConfigureServices(IServiceCollection services)
         {
             
+            
 
             JwtSettings settings;
             settings =GetJwtSettings();
@@ -87,7 +88,7 @@ namespace digitalEnsi
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                 builder =>
                                 {
-                                    builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();;
+                                    builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowCredentials().AllowAnyHeader();
                                 });
             });
 
@@ -159,11 +160,12 @@ namespace digitalEnsi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "digitalEnsi v1"));
             }
+            
 
             //app.UseHttpsRedirection();
-            
-            app.UseRouting();
             app.UseCors(MyAllowSpecificOrigins);
+            app.UseRouting();
+            
 
             app.UseAuthentication();
 

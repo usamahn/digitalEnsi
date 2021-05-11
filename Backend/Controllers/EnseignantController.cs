@@ -9,6 +9,8 @@ using digitalEnsi.Services;
 using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace digitalEnsi.Controllers
 {
@@ -21,15 +23,19 @@ namespace digitalEnsi.Controllers
     public class EnseignantController : ControllerBase
     {
         private readonly IEnseignantService _enseignantService;
+        private readonly IModuleService _moduleService;
+        private readonly IGroupeService _groupeService;
         private readonly IMapper _mapper;
 
-        public EnseignantController(IEnseignantService enseignantService,IMapper mapper){
+        public EnseignantController(IEnseignantService enseignantService,IMapper mapper,IModuleService moduleService,IGroupeService groupeService){
             _enseignantService= enseignantService;
             _mapper= mapper;
+            _moduleService=moduleService;
+            _groupeService=groupeService;
         }
 
         [HttpGet("api/Enseignant")]
-        public async Task<IEnumerable<EnseignantInfoModel>> GetEtudiants(){
+        public async Task<IEnumerable<EnseignantInfoModel>> GetEnseignants(){
             var enseignants= await _enseignantService.GetEnseignantsAsync() ;
             return _mapper.Map<IEnumerable<EnseignantInfoModel>>(enseignants);
             //return etudiants.Select(_mapper.Map<EtudiantInfoModel>);
@@ -44,6 +50,21 @@ namespace digitalEnsi.Controllers
            return Ok();
 
             
+        }
+
+
+        [HttpGet("api/Enseignant/Module")]
+        [Authorize(AuthenticationSchemes = "JwtBearer")]
+        public async Task<IEnumerable<Module>> GetModule([FromQuery] string année_Universitaire,[FromQuery] int semestre)
+        {   
+            return await _moduleService.GetEnseignantModule(User.FindFirstValue("id"),semestre,année_Universitaire);
+        }
+
+        [HttpGet("api/Enseignant/Groupe")]
+        [Authorize(AuthenticationSchemes = "JwtBearer")]
+        public async Task<IEnumerable<Groupe>> GetGroupe([FromQuery] string année_Universitaire,[FromQuery] int semestre)
+        {   
+            return await _groupeService.GetEnseignantGroupe(User.FindFirstValue("id"),semestre,année_Universitaire);
         }
 
     }

@@ -8,6 +8,9 @@ namespace digitalEnsi.Models
         public DayOfWeek Jour {get;set;}
         public TimeSpan HeureDeb {get;set;}
         public TimeSpan HeureFin {get;set;}
+        public string Année_Universitaire {get;set;}
+        public int Semestre {get;set;}
+
 
         public int groupeId  {get;set;}
 

@@ -6,6 +6,7 @@ using digitalEnsi.Factories;
 using digitalEnsi.Models;
 using digitalEnsi.Models.DTO;
 using AutoMapper;
+using digitalEnsi.Services;
 
 namespace digitalEnsi.Controllers
 {
@@ -17,6 +18,9 @@ namespace digitalEnsi.Controllers
 
     public class AccountController : ControllerBase
     {
+        private readonly IEtudiantService _etudiantService;
+        private readonly IEnseignantService _enseignantService;
+
         private readonly UserManager<Etudiant> _etudiantManager;
         private readonly UserManager<Enseignant> _EnseignantManager;
         private readonly UserManager<Administrateur> _administrateurManager;
@@ -24,7 +28,9 @@ namespace digitalEnsi.Controllers
         private readonly JwtFactory _jwtFactory;
         private readonly IMapper _mapper;
 
-        public AccountController(UserManager<Etudiant> etudiantManager, UserManager<Enseignant> EnseignantManager,UserManager<Administrateur> administrateurManager,RoleManager<IdentityRole> roleManager,JwtFactory jwtFactory,IMapper mapper)
+        public AccountController(UserManager<Etudiant> etudiantManager, UserManager<Enseignant> EnseignantManager,UserManager<Administrateur> administrateurManager,
+                                    RoleManager<IdentityRole> roleManager,JwtFactory jwtFactory,IMapper mapper , IEtudiantService etudiantService,
+                                    IEnseignantService enseignantService)
         {
             _etudiantManager = etudiantManager;
             _EnseignantManager=EnseignantManager;
@@ -32,6 +38,8 @@ namespace digitalEnsi.Controllers
             _roleManager = roleManager;
             _jwtFactory = jwtFactory;
             _mapper= mapper;
+            _etudiantService= etudiantService;
+            _enseignantService=enseignantService;
         }
 
         [HttpPost("api/Etudiants/Register")]
@@ -48,13 +56,16 @@ namespace digitalEnsi.Controllers
             //Etudiant userIdentity=new Etudiant(){Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
 
 
-            var result = await _etudiantManager.CreateAsync(userIdentity, model.Cin);
+            var result = await _etudiantManager.CreateAsync(userIdentity, model.Password);
             
 
             if (!result.Succeeded) return new BadRequestObjectResult(result);
-
+            var user=await _etudiantManager.FindByNameAsync(model.UserName);
+            result = await _etudiantManager.AddToRoleAsync(user, "Etudiant");
             //await _appDbContext.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
             //await _appDbContext.SaveChangesAsync();
+
+            if (!result.Succeeded) return new BadRequestObjectResult(result);
 
             return new OkObjectResult("Account created");
         }
@@ -79,7 +90,25 @@ namespace digitalEnsi.Controllers
         }
 
 
-        [HttpPost("Enseignant/Register")]
+
+
+        [HttpDelete("api/Etudiant/{cin}")]
+        public async Task<IActionResult> DeleteEtudiant(string cin)
+        {
+            var etudiant =await _etudiantService.GetEtudiantByCinAsync(cin);
+            if(etudiant.Inscriptions==null|| etudiant.Inscriptions.Count==0){
+                await _etudiantManager.DeleteAsync(etudiant);
+                return Ok();
+            }
+
+
+            return NoContent();
+        }
+
+
+
+
+        [HttpPost("api/Enseignants/Register")]
         public async Task<IActionResult> RegisterEnseignant([FromBody]RegistrationModel model) //
         {
             if (!ModelState.IsValid)
@@ -89,11 +118,16 @@ namespace digitalEnsi.Controllers
 
             var userIdentity = _mapper.Map<Enseignant>(model);
             //Enseignant userIdentity=new Enseignant(){Email=model.Email,UserName=model.UserName,Nom=model.Nom, Prenom=model.Prenom};
+            if(model.Password==null){
+                model.Password=model.Cin;
+            }
 
-
-            var result = await _EnseignantManager.CreateAsync(userIdentity, model.Cin);
+            var result = await _EnseignantManager.CreateAsync(userIdentity, model.Password);
 
             if (!result.Succeeded) return new BadRequestObjectResult(result);
+            var user=await _EnseignantManager.FindByNameAsync(model.UserName);
+            result = await _EnseignantManager.AddToRoleAsync(user, "Enseignant");
+            
 
             //await _appDbContext.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
             //await _appDbContext.SaveChangesAsync();
@@ -118,6 +152,21 @@ namespace digitalEnsi.Controllers
                 return new OkObjectResult(jwt);
             }
             return Unauthorized();
+        }
+
+        [HttpDelete("api/Enseignant/{cin}")]
+        public async Task<IActionResult> DeleteEnseignant(string cin)
+        {
+            
+            var enseignant =await _enseignantService.GetEnseignantByCinAsync(cin);
+            if(enseignant.Seances==null || enseignant.Seances.Count==0){
+                await _EnseignantManager.DeleteAsync(enseignant);
+                
+                return Ok();
+            }
+
+
+            return NoContent();
         }
 
 

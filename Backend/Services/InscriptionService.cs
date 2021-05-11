@@ -31,7 +31,12 @@ namespace digitalEnsi.Services
             return inscription;
         }
 
-        public async Task<List<Inscription>> GetInscriptionNoteByModuleGroupe(string année_Universitaire,int groupeId,int moduleId){
+        public async Task<List<Inscription>> GetInscriptionNoteByModuleGroupe(int groupeId,int moduleId,string année_Universitaire=null,int semestre=0){
+            if(String.IsNullOrWhiteSpace(année_Universitaire)) 
+            année_Universitaire=Utils.Utils.getAnnéeUniversitaireActuelle();
+            if(semestre==0){
+                semestre=Utils.Utils.getSemestreActuelle();
+            }
             return await _context.Inscriptions
                                 .Where(i=>i.Année_Universitaire==année_Universitaire&&i.GroupeId==groupeId)
                                 .Include(i=>i.Etudiant)

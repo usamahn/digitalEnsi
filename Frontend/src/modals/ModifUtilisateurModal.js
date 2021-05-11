@@ -77,7 +77,7 @@ const ModifUtilisateurModal = (props) => {
                                     </DropdownItem>
                                     <DropdownItem
                                       href="#pablo"
-                                      onClick={(e) => e.preventDefault()}
+                                      onClick={(e) => {e.preventDefault();props.DeleteUser(cin);props.refetch()}}
                                     >
                                       Supprimer
                                     </DropdownItem>

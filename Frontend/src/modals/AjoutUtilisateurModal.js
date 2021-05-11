@@ -20,6 +20,7 @@ import ReactDatetime from "react-datetime";
 import moment from 'moment';
 import 'moment/locale/fr';
 
+
 const AjoutUtilisateurModal = (props) => {
 
 
@@ -42,7 +43,8 @@ const AjoutUtilisateurModal = (props) => {
                     }
                     console.log(person)
                     await props.addUser(person);
-                    await props.refetch();
+                    
+                    //await props.refetch();
                     props.setModal(false)
     }
 

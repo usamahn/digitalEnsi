@@ -18,7 +18,9 @@ namespace digitalEnsi.Services
             
         }
         public async Task<ActionResult<IEnumerable<Groupe>>> GetGroupe(){
-            return await _context.Groupe.ToListAsync();
+            var groupes= await _context.Groupe.ToListAsync();
+            //groupes.Sort();
+            return groupes;
         }
 
         public async Task<List<Seance>> GetSeancesByGroupe(string nomGroupe){
@@ -31,6 +33,16 @@ namespace digitalEnsi.Services
             var result =await  query.Where(g=>g.Libellé_groupe==nomGroupe).Select(g=>g.Seances).FirstOrDefaultAsync();
             return result;
                                 
+        }
+
+        public async Task<IEnumerable<Groupe>> GetEnseignantGroupe(string EnseignantId,int semestre=0,string année_Universitaire=null){
+            if (semestre==0)
+                semestre=Utils.Utils.getSemestreActuelle();
+            if(année_Universitaire==null)
+                année_Universitaire=Utils.Utils.getAnnéeUniversitaireActuelle();
+            return await  _context.Groupe.Where(g=>g.Seances.Any(s=>s.EnseignantId==EnseignantId&&s.Semestre==semestre&&s.Année_Universitaire==année_Universitaire)).ToListAsync();
+            
+                                        
         }
 
         

@@ -43,8 +43,8 @@ import {
 import Header from "components/Headers/Header.js";
 import AjoutEtudiantModal from "modals/AjoutUtilisateurModal"
 import ModifUtilisateurModal from "modals/ModifUtilisateurModal"
-import {CreateEtudiantAccount} from "services/AccountService"
-import {UpdateEnseignant} from "services/EnseignantService"
+import {CreateEnseignantAccount} from "services/AccountService"
+import {UpdateEnseignant,DeleteEnseignant} from "services/EnseignantService"
 
 const Enseignants = () => {
   const [data, setData] = useState([])
@@ -70,8 +70,8 @@ const Enseignants = () => {
             <Card className="shadow">
               <CardHeader className="border-0">
                 <Row>
-                <h3 className="mb-0">Liste des etudiants</h3>
-                <Button color="success" type="button" size="sm" onClick={(e)=>{setAjoutModalOpen(true)}}>Ajouter un etudiant</Button>
+                <h3 className="mb-0">Liste des enseignant</h3>
+                <Button color="success" type="button" size="sm" onClick={(e)=>{setAjoutModalOpen(true)}}>Ajouter un enseignant</Button>
                 </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
@@ -97,7 +97,7 @@ const Enseignants = () => {
                           <td>{enseignant.email}</td>
                           <td>{enseignant.phoneNumber}</td>
                           <td className="text-right">
-                              <ModifUtilisateurModal UpdateUser={UpdateEnseignant} user={enseignant} refetch={getData}/>
+                              <ModifUtilisateurModal UpdateUser={UpdateEnseignant} DeleteUser={DeleteEnseignant} user={enseignant} refetch={getData}/>
      
                           </td>
                         </tr>
@@ -111,7 +111,7 @@ const Enseignants = () => {
             </Card>
           </div>
         </Row>
-        <AjoutEtudiantModal isOpen={ajoutModalOpen} setModal={setAjoutModalOpen} addUser={CreateEtudiantAccount} refetch={getData()}/>
+        <AjoutEtudiantModal isOpen={ajoutModalOpen} setModal={setAjoutModalOpen} addUser={CreateEnseignantAccount} refetch={getData}/>
         
       </Container>
       

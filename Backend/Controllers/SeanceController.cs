@@ -9,6 +9,9 @@ using digitalEnsi.Services;
 using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace digitalEnsi.Controllers
 {
@@ -29,10 +32,35 @@ namespace digitalEnsi.Controllers
             _mapper=mapper;
         }
 
+        
+        [HttpGet("api/Seances")]
+        [Authorize(AuthenticationSchemes = "JwtBearer")]
+        public async Task<ActionResult<IEnumerable<SeanceEmploiModel>>> GetSeances(){
+            Console.WriteLine(User.IsInRole("Admin"));
+            Console.WriteLine(User.IsInRole("Enseignant"));
+            
+            if(User.IsInRole("Enseignant")){
+                var seances= await _seanceService.GetSeancesByIdEnseignant(User.FindFirstValue("id"));
+                return _mapper.Map<IEnumerable<SeanceEmploiModel>>(seances).ToList();
+                
+            }
+            else return Ok();
+            
+            //var seances= await _seanceService.GetSeancesByGroupe(nomGroupe) ;
+            //return  _mapper.Map<IEnumerable<SeanceEmploiModel>>(seances);
+            //return etudiants.Select(_mapper.Map<EtudiantInfoModel>);
+           
+        }
+
+        [HttpGet("api/Seances/Dates")]
+        [Authorize(AuthenticationSchemes = "JwtBearer")]
+        public async Task<IList<DateTime>> GetDatesSeance([FromQuery]int groupeId, int moduleId){
+            return await _seanceService.GetDatesSeanceByIdEnseignant(User.FindFirstValue("id"),groupeId,moduleId);
+        }
 
         [HttpGet("api/Seances/{nomGroupe}")]
-        public async Task<IEnumerable<SeanceEmploiModel>> GetSeances(string nomGroupe){
-            var seances= await _seanceService.GetSeancesByGroupe(nomGroupe) ;
+        public async Task<IEnumerable<SeanceEmploiModel>> GetSeancesByGroupe(string nomGroupe,[FromQuery] string année_Universitaire=null,[FromQuery]int semestre=0){
+            var seances= await _seanceService.GetSeancesByGroupe(nomGroupe,année_Universitaire,semestre) ;
             return  _mapper.Map<IEnumerable<SeanceEmploiModel>>(seances);
             //return etudiants.Select(_mapper.Map<EtudiantInfoModel>);
         }

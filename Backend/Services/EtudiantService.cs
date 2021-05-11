@@ -22,13 +22,21 @@ namespace digitalEnsi.Services
             
         }
 
-        public async Task<IEnumerable<Etudiant>> GetEtudiantsAsync(){
+        public async Task<IEnumerable<Etudiant>> GetEtudiantsAsync(string année_Universitaire=null,int groupeId=0){
             /*var etudiants =await  _etudiantManager.Users.ToListAsync();
             return etudiants;*/
-            return await _context.Etudiants
+
+            var query= _context.Etudiants
                                  .Include(e=>e.Inscriptions)
-                                 .ThenInclude(i=>i.Groupe)
-                                 .ToListAsync();
+                                 .ThenInclude(i=>i.Groupe);
+            if (année_Universitaire!=null && groupeId!=0){
+                Console.WriteLine(année_Universitaire);
+                Console.WriteLine(groupeId);
+                return await query.Where(e=>e.Inscriptions.Any(i=>i.Année_Universitaire==année_Universitaire&&i.GroupeId==groupeId)).ToListAsync();
+            }
+           
+            return await query.ToListAsync();
+                                 
 
         }
 
@@ -52,5 +60,10 @@ namespace digitalEnsi.Services
 
         }
 
+
+        public async Task<string> GetEtudiantIdByCin(string cin){
+            var etudiant= await _context.Etudiants.Where(e=>e.Cin==cin).SingleAsync();
+            return etudiant.Id;
+        }
     }
 }

@@ -35,7 +35,24 @@ import {
   Media,
 } from "reactstrap";
 
+import Cookies from 'js-cookie'
+
+
+
+
 const AdminNavbar = (props) => {
+
+  const logout=()=>{
+    Object.keys(Cookies.get()).forEach(function(cookieName) {
+      var neededAttributes = {
+        // Here you pass the same attributes that were used when the cookie was created
+        // and are required when removing the cookie
+      };
+      Cookies.remove(cookieName, neededAttributes);
+    });
+  }
+
+
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -99,7 +116,7 @@ const AdminNavbar = (props) => {
                   <span>Support</span>
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem href="#pablo" onClick={(e) => {logout()}}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>

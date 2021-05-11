@@ -9,29 +9,39 @@ using Microsoft.EntityFrameworkCore;
 using digitalEnsi;
 using digitalEnsi.Models;
 using digitalEnsi.Services;
+using digitalEnsi.Models.Resources;
+using digitalEnsi.DTO;
+using AutoMapper;
 
 namespace digitalEnsi.Controllers
 {
     
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = "JwtBearer",Roles =  "Admin")]
+    [Authorize(AuthenticationSchemes = "JwtBearer",Roles = "Admin")]
     public class InscriptionController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
         private IInscriptionService _inscriptionService;
+        private readonly IEtudiantService _etudiantService;
 
-        public InscriptionController(ApplicationDbContext context,IInscriptionService inscriptionService)
+        public InscriptionController(ApplicationDbContext context,IInscriptionService inscriptionService,IMapper mapper,IEtudiantService etudiantService)
         {
             _context = context;
             _inscriptionService=inscriptionService;
+            _mapper=mapper;
+            _etudiantService=etudiantService;
         }
 
         // GET: api/Inscription
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Inscription>>> GetInscription()
+        
+        public async Task<ActionResult<IEnumerable<Inscription>>> GetInscription([FromQuery] InscriptionsFilterParameters inscriptionsFilterParameters)
         {
+            
+
             var i =await _inscriptionService.GetInscriptions();
           
             
@@ -55,16 +65,18 @@ namespace digitalEnsi.Controllers
         // PUT: api/Inscription/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutInscription(int id, Inscription inscription)
+        public async Task<IActionResult> PutInscription(int id, InscriptionModel inscription)
         {
-
+            
             
             if (id != inscription.InscriptionId)
             {
                 return BadRequest();
             }
+            var newInscription =_mapper.Map<Inscription>(inscription);
+            newInscription.EtudiantId=await _etudiantService.GetEtudiantIdByCin(inscription.Cin);
 
-            return await _inscriptionService.PutInscription( id,  inscription);
+            return await _inscriptionService.PutInscription( id,  newInscription);
 
             
         }
@@ -73,8 +85,10 @@ namespace digitalEnsi.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         
-        public async Task<ActionResult<Inscription>> PostInscription(Inscription inscription)
+        public async Task<ActionResult<Inscription>> PostInscription(InscriptionModel inscriptionModel)
         {
+            var inscription =_mapper.Map<Inscription>(inscriptionModel);
+            inscription.EtudiantId=await _etudiantService.GetEtudiantIdByCin(inscriptionModel.Cin);
             await _inscriptionService.PostInscription(inscription);
 
             return CreatedAtAction("GetInscription", new { id = inscription.InscriptionId }, inscription);
