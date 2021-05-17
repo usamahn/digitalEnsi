@@ -68,6 +68,17 @@ namespace digitalEnsi.Controllers
             return await _moduleService.GetModuleByNiveau(niveau);
         }
 
+
+
+        
+        [HttpGet("api/FicheNote")]
+        [Authorize(AuthenticationSchemes = "JwtBearer",Roles = "Etudiant")]
+        public async Task<IEnumerable<NoteModuleParGroupeModel>> GetFicheNoteEtudiant([FromQuery]string année_Universitaire)
+        {
+            var notes =await _moduleService.getFicheNote(User.FindFirstValue("id"));
+            return _mapper.Map<IEnumerable<NoteModuleParGroupeModel>>(notes);
+        }
+
         [HttpPost("api/Module")]
         public async Task<ActionResult<Module>> PostModule(Module module)
         {
@@ -124,8 +135,6 @@ namespace digitalEnsi.Controllers
             {
                 return NotFound();
             }
-
-            
 
             return NoContent();
         }

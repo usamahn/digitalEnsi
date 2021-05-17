@@ -13,7 +13,7 @@ import {
   InputGroup,
   Modal,
   Row,
-  Col
+  Col,Label
 } from "reactstrap";
 
 import CustomAutocomplete from "components/Inputs/Autocomplete"
@@ -54,14 +54,14 @@ const AjoutSeanceModal = (props) => {
               <div className="modal-body p-0">
                 <Card className="bg-secondary shadow border-0">
                   <CardHeader className="bg-transparent pb-5">
-                    
+                    <h3>Ajouter une seance</h3>
                   </CardHeader>
                   <CardBody className="px-lg-5 py-lg-5">
                     
                     <Form role="form">
 
                       <FormGroup>
-                        
+                      <Label>Enseignant</Label>
                           
                           <CustomAutocomplete getOptions={getEnseignants} 
                           onChange={(e,v)=>{setEnseignantId(v.id)}}
@@ -73,6 +73,10 @@ const AjoutSeanceModal = (props) => {
                           )}
                           getOptionLabel={(option) => option.prenom+" "+option.nom}
                           />
+                          </FormGroup>
+
+                        <FormGroup>
+                        <Label>Module</Label>
                           <CustomAutocomplete getOptions={getModule} 
                           onChange={(e,v)=>{setModuleId(v.moduleId)}}
                           renderOption={(option)=>(

@@ -52,7 +52,21 @@ namespace digitalEnsi.Profiles
             .ForMember(dest=>dest.MoyennePrincipal,opt => opt.MapFrom(src=>src.Notes.FirstOrDefault().getMoyennePrincipale()))
             .ForMember(dest=>dest.MoyenneRattrapage,opt => opt.MapFrom(src=>src.Notes.FirstOrDefault().getMoyenneRattrapage()));
 
+
+            CreateMap<Note,NoteModuleParGroupeModel>()
+            .ForMember(dest=>dest.MoyennePrincipal,opt => opt.MapFrom(src=>src.getMoyennePrincipale()))
+            .ForMember(dest=>dest.MoyenneRattrapage,opt => opt.MapFrom(src=>src.getMoyenneRattrapage()))
+            .ForMember(dest=>dest.LibelleModule,opt => opt.MapFrom(src=>src.Module.LibelleModule))
+            .ForMember(dest=>dest.Semestre,opt => opt.MapFrom(src=>src.Module.Semestre))
+            .ForMember(dest=>dest.Coef,opt => opt.MapFrom(src=>src.Module.VolumeHoraire/15));
+
             CreateMap<InscriptionModel,Inscription>();
+
+            CreateMap<Inscription,AbsenceInfoModel>()
+            .ForMember(dest=>dest.Nom,opt => opt.MapFrom(src=>src.Etudiant.Nom+" "+src.Etudiant.Prenom))
+            .ForMember(dest=>dest.SeanceId,opt => opt.MapFrom(src=>src.Absences.FirstOrDefault().SeanceId))
+            .ForMember(dest=>dest.AbsenceId,opt => opt.MapFrom(src=>src.Absences.FirstOrDefault().AbsenceId))
+            .ForMember(dest=>dest.Present,opt => opt.MapFrom(src=>src.Absences.Count==0));
 
         }
         

@@ -34,6 +34,13 @@ namespace digitalEnsi.Controllers
             _groupeService=groupeService;
         }
 
+        [HttpGet("api/Enseignant/info")]
+        [Authorize(AuthenticationSchemes = "JwtBearer",Roles = "Enseignant")]
+        public async Task<EtudiantInfoModel> GetEnseignantInfo(){
+            var enseignant = await _enseignantService.GetEnseignantAsync(User.FindFirstValue("id"));
+            return _mapper.Map<EtudiantInfoModel>(enseignant);
+        }
+
         [HttpGet("api/Enseignant")]
         public async Task<IEnumerable<EnseignantInfoModel>> GetEnseignants(){
             var enseignants= await _enseignantService.GetEnseignantsAsync() ;

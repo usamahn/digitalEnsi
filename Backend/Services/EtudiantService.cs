@@ -21,7 +21,9 @@ namespace digitalEnsi.Services
             _context=context;
             
         }
-
+            public async Task<Etudiant> GetEtudiantAsync(string id){
+                return await _context.Etudiants.FindAsync(id);                                  
+            }
         public async Task<IEnumerable<Etudiant>> GetEtudiantsAsync(string année_Universitaire=null,int groupeId=0){
             /*var etudiants =await  _etudiantManager.Users.ToListAsync();
             return etudiants;*/

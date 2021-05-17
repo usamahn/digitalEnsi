@@ -34,5 +34,15 @@ export async function getDatesSeance(groupeId,moduleId){
                     .catch(error =>{
                         return error.response;
                     })
+                    console.log(resp.headers)
+    return resp
+}
+
+export async function getSeanceId(groupeId,moduleId){    
+    const resp = await axios.get("http://localhost:5000/api/SeanceId?groupeId="+groupeId+"&moduleId="+moduleId,{headers:{Authorization:Cookies.get("Authorization") }})
+                    .catch(error =>{
+                        return error.response;
+                    })
+                    console.log(resp.headers)
     return resp
 }

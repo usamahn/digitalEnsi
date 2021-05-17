@@ -42,8 +42,9 @@ import Cookies from 'js-cookie'
 
 
 
-const AdminNavbar = (props) => {
-  const {userInfo, setUserInfo } = useContext(UserInfoContext)
+const UserNavBar = (props) => {
+    const {userInfo, setUserInfo } = useContext(UserInfoContext)
+
   const logout=()=>{
     Object.keys(Cookies.get()).forEach(function(cookieName) {
       var neededAttributes = {
@@ -52,6 +53,7 @@ const AdminNavbar = (props) => {
       };
       Cookies.remove(cookieName, neededAttributes);
     });
+    //Cookies.set("isAuthentificated", false);
   }
 
 
@@ -81,7 +83,7 @@ const AdminNavbar = (props) => {
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Admin
+                    {userInfo.prenom+" "+userInfo.nom}
                     </span>
                   </Media>
                 </Media>
@@ -90,9 +92,13 @@ const AdminNavbar = (props) => {
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Welcome!</h6>
                 </DropdownItem>
+                <DropdownItem to="/admin/user-profile" tag={Link}>
+                  <i className="ni ni-single-02" />
+                  <span>My profile</span>
+                </DropdownItem>
 
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => {logout()}}>
+                <DropdownItem href="#" onClick={(e) => {logout()}}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>
@@ -105,4 +111,4 @@ const AdminNavbar = (props) => {
   );
 };
 
-export default AdminNavbar;
+export default UserNavBar;

@@ -57,6 +57,7 @@ namespace digitalEnsi
             services.AddScoped<ISeanceService, SeanceService>();
             services.AddScoped<IEnseignantService, EnseignantService>();
             services.AddScoped<IModuleService, ModuleService>();
+            services.AddScoped<IAbsenceService, AbsenceService>();
             services.AddAuthentication(option => {
                 option.DefaultAuthenticateScheme="JwtBearer";
                 option.DefaultChallengeScheme="JwtBearer";

@@ -9,6 +9,8 @@ using digitalEnsi.Services;
 using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace digitalEnsi.Controllers
 {
@@ -28,6 +30,16 @@ namespace digitalEnsi.Controllers
             _etudiantService= etudiantService;
             _mapper= mapper;
         }
+
+
+        [HttpGet("api/Etudiants/info")]
+        [Authorize(AuthenticationSchemes = "JwtBearer",Roles = "Etudiant")]
+        public async Task<EtudiantInfoModel> GetEtudiantInfo(){
+            var etudiant = await _etudiantService.GetEtudiantAsync(User.FindFirstValue("id"));
+            return _mapper.Map<EtudiantInfoModel>(etudiant);
+        }
+
+        
 
         [HttpGet("api/Etudiants")]
         public async Task<IEnumerable<EtudiantInfoModel>> GetEtudiants([FromQuery] string année_Universitaire,[FromQuery]int groupeId){

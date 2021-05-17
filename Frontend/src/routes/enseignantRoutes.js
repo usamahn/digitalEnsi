@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
+import Index from "pages/enseignant/Index.js";
 import Etudiants from "pages/admin/Etudiants"
 import Enseignants from "pages/admin/Enseignants"
 
@@ -44,13 +44,13 @@ var enseignantRoutes = [
   {
     path: "/emplois",
     name: "Emploi",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-calendar-grid-58 text-primary",
     component: Emplois,
     layout: "/enseignant",
   },
   {
     path: "/presences",
-    name: "Presneces",
+    name: "Fiche de presence",
     icon: "ni ni-tv-2 text-primary",
     component: Presences,
     layout: "/enseignant",
@@ -58,25 +58,13 @@ var enseignantRoutes = [
   {
     path: "/notes",
     name: "Notes",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-paper-diploma text-primary",
     component: Notes,
     layout: "/enseignant",
   },
-  {
-    path: "/etudiants",
-    name: "Etudiants",
-    icon: "ni ni-tv-2 text-primary",
-    component: Etudiants,
-    layout: "/enseignant",
-  },
 
 
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth",
-  },
+
+
 ];
 export default  enseignantRoutes ;

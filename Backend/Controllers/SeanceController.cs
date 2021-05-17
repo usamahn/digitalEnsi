@@ -44,6 +44,11 @@ namespace digitalEnsi.Controllers
                 return _mapper.Map<IEnumerable<SeanceEmploiModel>>(seances).ToList();
                 
             }
+            if(User.IsInRole("Etudiant")){
+                var seances= await _seanceService.GetSeancesByIdEtudiant(User.FindFirstValue("id"));
+                return _mapper.Map<IEnumerable<SeanceEmploiModel>>(seances).ToList();
+                
+            }
             else return Ok();
             
             //var seances= await _seanceService.GetSeancesByGroupe(nomGroupe) ;
@@ -54,8 +59,15 @@ namespace digitalEnsi.Controllers
 
         [HttpGet("api/Seances/Dates")]
         [Authorize(AuthenticationSchemes = "JwtBearer")]
-        public async Task<IList<DateTime>> GetDatesSeance([FromQuery]int groupeId, int moduleId){
-            return await _seanceService.GetDatesSeanceByIdEnseignant(User.FindFirstValue("id"),groupeId,moduleId);
+        public async Task<ActionResult<IEnumerable<DateTime>>> GetDatesSeance([FromQuery]int groupeId, int moduleId){
+            var res= await _seanceService.GetDatesSeanceByIdEnseignant(User.FindFirstValue("id"),groupeId,moduleId);
+            return res;
+        }
+        [HttpGet("api/SeanceId")]
+        [Authorize(AuthenticationSchemes = "JwtBearer")]
+        public async Task<ActionResult<int>> GetDatesID([FromQuery]int groupeId, int moduleId){
+            var res= await _seanceService.GetSeanceByIdEnseignant(User.FindFirstValue("id"),groupeId,moduleId);
+            return res.SeanceId;
         }
 
         [HttpGet("api/Seances/{nomGroupe}")]

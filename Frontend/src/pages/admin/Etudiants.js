@@ -61,7 +61,9 @@ const Etudiants = () => {
 
   return (
     <>
-      <Header />
+        <div className="header bg-gradient-info pb-8 pt-5 pt-md-8">
+        
+        </div>
       {/* Page content */}
       <Container className="mt--7" fluid>
         {/* Table */}

@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
+import Index from "pages/admin/Index.js";
 import Etudiants from "pages/admin/Etudiants"
 import Enseignants from "pages/admin/Enseignants"
 
@@ -37,93 +37,53 @@ var adminRoutes = [
   {
     path: "/index",
     name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-chart-bar-32 text-primary",
     component: Index,
     layout: "/admin",
   },
   {
     path: "/etudiants",
     name: "Etudiants",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-hat-3 text-primary",
     component: Etudiants,
     layout: "/admin",
   },
   {
     path: "/inscriptions",
     name: "Inscriptions",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-collection text-primary",
     component: Inscriptions,
     layout: "/admin",
   },
   {
     path: "/Enseignants",
     name: "Enseignants",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-circle-08 text-primary",
     component: Enseignants,
     layout: "/admin",
   },
   {
     path: "/matieres",
     name: "Matieres",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-books text-primary",
     component: Matieres,
     layout: "/admin",
   },
   {
     path: "/notes",
     name: "Notes",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-paper-diploma text-primary",
     component: Notes,
     layout: "/admin",
   },
   {
     path: "/emplois",
     name: "Emplois",
-    icon: "ni ni-tv-2 text-primary",
+    icon: "ni ni-calendar-grid-58 text-primary",
     component: Emplois,
     layout: "/admin",
   },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
-    layout: "/admin",
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
-    layout: "/admin",
-  },
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: Profile,
-    layout: "/admin",
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
-    layout: "/admin",
-  },
-  {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-key-25 text-info",
-    component: Login,
-    layout: "/auth",
-  },
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth",
-  },
+
+
 ];
 export default adminRoutes;

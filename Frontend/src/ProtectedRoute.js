@@ -7,7 +7,7 @@ export const ProtectedRoute = ({ component: Component,role:Role, ...rest }) => {
   
   return (
     <Route  {...rest} render={
-      props =>{if (Cookies.get('isAuthentificated')!==undefined)
+      props =>{if (Cookies.get('isAuthentificated')!==undefined && Cookies.get('isAuthentificated'))
                  { const role =JSON.parse(Cookies.get('role'))[0];
                  console.log(Role);
                   if(role==Role)

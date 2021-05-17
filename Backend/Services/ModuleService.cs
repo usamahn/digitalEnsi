@@ -97,6 +97,17 @@ namespace digitalEnsi.Services
             //return null;
         }
 
+
+        public async Task<IEnumerable<Note>> getFicheNote(string EtudiantId,string année_Universitaire=null,int semestre=0){
+            if(année_Universitaire==null)
+                année_Universitaire=Utils.Utils.getAnnéeUniversitaireActuelle();
+            if(semestre==0){
+                semestre=Utils.Utils.getSemestreActuelle();
+            }
+            var inscription =await  _context.Inscriptions.SingleAsync(i=>i.EtudiantId==EtudiantId&&i.Année_Universitaire==année_Universitaire);
+            return await _context.Notes.Where(n=>n.Inscription.InscriptionId==inscription.InscriptionId).Include(n=>n.Module).ToListAsync(); 
+        }
+
         public async Task<Module> DeleteModule(int id){
             var module = await _context.Modules.FindAsync(id);
             if (module == null)

@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 
 
 export async function getModule(){    
-    const resp = await axios.get("http://localhost:5000/api/Module")
+    const resp = await axios.get("http://localhost:5000/api/Module",{headers:{Authorization:Cookies.get("Authorization") }})
                     .catch(error =>{
                         return error.response;
                     })
@@ -12,8 +12,25 @@ export async function getModule(){
 }
 
 
+export async function getFicheNoteModuleByEtudiant(){    
+    const resp = await axios.get("http://localhost:5000/api/Module")
+                    .catch(error =>{
+                        return error.response;
+                    })
+    return resp
+}
+
 export async function getModuleByEnseignant(semestre=0){    
     const resp = await axios.get("http://localhost:5000/api/Enseignant/Module?semestre="+semestre,{headers:{Authorization:Cookies.get("Authorization") }})
+                    .catch(error =>{
+                        return error.response;
+                    })
+    return resp
+}
+
+export async function getFicheNote(){ 
+    console.log("ficheNote");   
+    const resp = await axios.get("http://localhost:5000/api/FicheNote",{headers:{Authorization:Cookies.get("Authorization") }})
                     .catch(error =>{
                         return error.response;
                     })

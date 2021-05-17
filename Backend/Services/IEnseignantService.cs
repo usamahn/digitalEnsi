@@ -10,6 +10,8 @@ namespace digitalEnsi.Services
 {
     public interface IEnseignantService
     {
+
+        Task<Enseignant> GetEnseignantAsync(string id);
         Task<IEnumerable<Enseignant>> GetEnseignantsAsync();
         Task<Enseignant> GetEnseignantByCinAsync(string cin,bool includeDetails=true);
         Task UpdateEnseignantAsync(UserUpdateModel newEnseignant);

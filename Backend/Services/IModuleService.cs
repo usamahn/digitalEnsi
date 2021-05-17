@@ -20,6 +20,7 @@ namespace digitalEnsi.Services
 
         Task AjouterNote(Note note);
          Task Modifynote(int id, Note note);
+         Task<IEnumerable<Note>> getFicheNote(string EtudiantId,string année_Universitaire=null,int semestre=0);
     }
 
 }

@@ -9,7 +9,7 @@ using digitalEnsi.Models.DTO;
 namespace digitalEnsi.Services
 {
     public interface IEtudiantService
-    {
+    {Task<Etudiant> GetEtudiantAsync(string id);
         Task<IEnumerable<Etudiant>> GetEtudiantsAsync(string année_Universitaire=null,int groupeId=0);
         Task<Etudiant> GetEtudiantByCinAsync(string cin,bool includeDetails=true);
         Task UpdateEtudiantAsync(UserUpdateModel newEtudiant);

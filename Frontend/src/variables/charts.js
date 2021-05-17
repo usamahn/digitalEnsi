@@ -319,7 +319,7 @@ let chartExample1 = {
           ticks: {
             callback: function (value) {
               if (!(value % 10)) {
-                return "$" + value + "k";
+                return  value + "%";
               }
             },
           },
@@ -337,7 +337,7 @@ let chartExample1 = {
             content += label;
           }
 
-          content += "$" + yLabel + "k";
+          content +=  yLabel + "%";
           return content;
         },
       },
@@ -345,11 +345,11 @@ let chartExample1 = {
   },
   data1: (canvas) => {
     return {
-      labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      labels: ["Sept", "Oct", "Nov", "Dec", "Jan", "Fev", "Mars", "Avr"],
       datasets: [
         {
           label: "Performance",
-          data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
+          data: [71, 90, 92, 93, 78, 84, 89, 71, 90],
         },
       ],
     };
@@ -369,6 +369,51 @@ let chartExample1 = {
 
 // Example 2 of Chart inside src/views/Index.js (Total orders - Card)
 let chartExample2 = {
+  options: {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            callback: function (value) {
+              if (!(value % 10)) {
+                //return '$' + value + 'k'
+                return value+"%";
+              }
+            },
+          },
+        },
+      ],
+    },
+    tooltips: {
+      callbacks: {
+        label: function (item, data) {
+          var label = data.datasets[item.datasetIndex].label || "";
+          var yLabel = item.yLabel;
+          var content = "";
+          if (data.datasets.length > 1) {
+            content += label;
+          }
+          content += yLabel;
+          return content+"%";
+        },
+      },
+    },
+  },
+  data: {
+    labels: ["1ere","2eme","3eme"],
+    datasets: [
+      {
+        label: "Sales",
+        data: [80, 87, 93],
+        maxBarThickness: 10,
+      },
+    ],
+  },
+};
+
+
+
+let chartEnseignant = {
   options: {
     scales: {
       yAxes: [
@@ -400,20 +445,69 @@ let chartExample2 = {
     },
   },
   data: {
-    labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: ["2IIB","2IIC","2IID","1IIF"],
     datasets: [
       {
         label: "Sales",
-        data: [25, 20, 30, 22, 17, 29],
+        data: [14.5, 12.5, 12.2,15],
         maxBarThickness: 10,
       },
     ],
   },
 };
 
+
+
+let chartEtudiant = {
+  options: {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            callback: function (value) {
+              if (!(value % 10)) {
+                //return '$' + value + 'k'
+                return value;
+              }
+            },
+          },
+        },
+      ],
+    },
+    tooltips: {
+      callbacks: {
+        label: function (item, data) {
+          var label = data.datasets[item.datasetIndex].label || "";
+          var yLabel = item.yLabel;
+          var content = "";
+          if (data.datasets.length > 1) {
+            content += label;
+          }
+          content += yLabel;
+          return content;
+        },
+      },
+    },
+  },
+  data: {
+    labels: ["Lun","Mar","Mer","Jeu","Vend"],
+    datasets: [
+      {
+        label: "Sales",
+        data: [70, 100, 20,80,100,90],
+        maxBarThickness: 10,
+      },
+    ],
+  },
+};
+
+
+
 module.exports = {
   chartOptions, // used inside src/views/Index.js
   parseOptions, // used inside src/views/Index.js
   chartExample1, // used inside src/views/Index.js
   chartExample2, // used inside src/views/Index.js
+  chartEnseignant,
+  chartEtudiant
 };

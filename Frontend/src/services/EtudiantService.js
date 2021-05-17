@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 
 
@@ -11,6 +12,13 @@ export async function getEtudiants(){
     return resp
 }
 
+export async function getEtudiantInfo(){    
+    const resp = await axios.get("http://localhost:5000/api/Etudiants/info",{headers:{Authorization:Cookies.get("Authorization") }})
+                    .catch(error =>{
+                        return error.response;
+                    })
+    return resp
+}
 
 export async function getEtudiantsByfilers(filters=null){  
     var url="http://localhost:5000/api/Etudiants"  

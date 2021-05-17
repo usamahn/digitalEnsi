@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React,{useContext,useState} from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
@@ -28,18 +28,9 @@ import "assets/scss/argon-dashboard-react.scss";
 import AdminLayout from "layouts/Admin.js";
 import EnseignantLayout from "layouts/Enseignant";
 
-
+import App from "App"
 import AuthLayout from "layouts/Auth.js";
-
-ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      
-      <ProtectedRoute   path="/admin" role="Admin" component={(props) => <AdminLayout {...props} />} />
-      <ProtectedRoute  path="/Enseignant" role="Enseignant" component={(props) => <EnseignantLayout {...props} />} />
-      <LoggedinRoute path="/auth" component={(props) => <AuthLayout {...props} />} />
-      
-    </Switch>
-  </BrowserRouter>,
+  
+ReactDOM.render(<App/>,
   document.getElementById("root")
 );

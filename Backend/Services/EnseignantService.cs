@@ -18,6 +18,10 @@ namespace digitalEnsi.Services
             
         }
 
+        public async Task<Enseignant> GetEnseignantAsync(string id){
+            return await _context.Enseignants.FindAsync(id);
+        }
+
             public async Task<IEnumerable<Enseignant>> GetEnseignantsAsync(){
             /*var etudiants =await  _etudiantManager.Users.ToListAsync();
             return etudiants;*/

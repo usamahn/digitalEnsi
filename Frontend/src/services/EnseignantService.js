@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 
 
@@ -10,6 +11,15 @@ export async function getEnseignants(){
                     })
     return resp
 }
+
+export async function getEnseignantInfo(){    
+    const resp = await axios.get("http://localhost:5000/api/Enseignant/info",{headers:{Authorization:Cookies.get("Authorization") }})
+                    .catch(error =>{
+                        return error.response;
+                    })
+    return resp
+}
+
 
 
 export async function UpdateEnseignant(enseignant){    

@@ -26,9 +26,9 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
 
-import enseignantRoutes from "routes/enseignantRoutes"
+import etudiantRoutes from "routes/etudiantRoutes"
 
-const Enseignant = (props) => {
+const Etudiant = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
 
@@ -40,7 +40,7 @@ const Enseignant = (props) => {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/enseignant") {
+      if (prop.layout === "/etudiant") {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -70,9 +70,9 @@ const Enseignant = (props) => {
     <>
       <Sidebar
         {...props}
-        routes={enseignantRoutes}
+        routes={etudiantRoutes}
         logo={{
-          innerLink: "/enseignant/index",
+          innerLink: "/etudiant/index",
           imgSrc: require("../assets/img/brand/argon-react.png").default,
           imgAlt: "...",
         }}
@@ -80,11 +80,11 @@ const Enseignant = (props) => {
       <div className="main-content" ref={mainContent}>
       <UserNavBar
           {...props}
-          brandText={getBrandText(enseignantRoutes,props.location.pathname)}
+          brandText={getBrandText(etudiantRoutes,props.location.pathname)}
         />
         <Switch>
-          {getRoutes(enseignantRoutes)}
-          <Redirect from="*" to="/enseignant/index" />
+          {getRoutes(etudiantRoutes)}
+          <Redirect from="*" to="/etudiant/index" />
         </Switch>
         <Container fluid>
           <AdminFooter />
@@ -94,4 +94,4 @@ const Enseignant = (props) => {
   );
 };
 
-export default Enseignant;
+export default Etudiant;

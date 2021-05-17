@@ -111,7 +111,7 @@ const Matieres = () => {
                 <Card className="shadow" body inverse color="secondary">
                     <CardTitle className="border-0">
                         <Row>
-                        <h3 className="mb-0" color="primary">Matieres sem1</h3>        
+                        <h3 className="mb-0" color="primary">Matieres semestre 1</h3>        
                         <AjoutModuleModal niveau={niveau} semestre={1} refetch={fetchModules}/>
                         </Row>
                     </CardTitle>
@@ -164,7 +164,7 @@ const Matieres = () => {
         <Card className="shadow" body inverse color="secondary">
                     <CardTitle className="border-0">
                         <Row>
-                        <h3 className="mb-0" color="primary">Matieres sem2</h3>        
+                        <h3 className="mb-0" color="primary">Matieres semestre 2</h3>        
                         <Button color="success" type="button" size="sm">Ajouter une matiere</Button>
                         </Row>
                     </CardTitle>

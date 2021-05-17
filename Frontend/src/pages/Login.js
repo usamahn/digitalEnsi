@@ -15,13 +15,15 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React,{useState}  from "react";
+import React,{useState,useContext}  from "react";
 import Cookies from 'js-cookie'
 import {loginService} from 'services/Authentification'
 
 import classnames from "classnames";
 import { useHistory } from "react-router-dom";
 
+import {getEnseignantInfo} from "services/EnseignantService"
+import {getEtudiantInfo} from "services/EtudiantService"
 
 // reactstrap components
 import {
@@ -41,6 +43,7 @@ import {
   NavItem,
   Nav
 } from "reactstrap";
+import UserInfoContext from "UserInfoContext"
 
 
 
@@ -50,7 +53,7 @@ const Login = () => {
   let history = useHistory();
   const [role,setRole]=useState("Admin")
 
-
+  const {userInfo, setUserInfo } = useContext(UserInfoContext)
 
 
 
@@ -61,9 +64,24 @@ const Login = () => {
     if(resp.status===200){
       for (const [key, value] of Object.entries(resp.data)) {
         Cookies.set(key, value);
+        
+
+        
       }
+
       Cookies.set("Authorization","bearer"+" "+resp.data.bearerToken);
       Cookies.set("isAuthentificated", true);
+      
+      
+      var userinfoResp={};
+      switch(JSON.parse(Cookies.get('role'))[0]){ //les cookies sont de type chaine de caracteres, il faut les parser pour les rendre tableau (role est un tableau)
+        case "Admin": break;
+        case "Enseignant":userinfoResp = await getEnseignantInfo();break;
+        case "Etudiant":userinfoResp = await getEtudiantInfo();break;
+      }
+      setUserInfo(userinfoResp.data)
+
+
       console.log(JSON.parse(Cookies.get('role'))[0]);
       switch(JSON.parse(Cookies.get('role'))[0]){ //les cookies sont de type chaine de caracteres, il faut les parser pour les rendre tableau (role est un tableau)
         case "Admin":history.push('/admin/index'); break;
@@ -80,7 +98,7 @@ const Login = () => {
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5">
             <div className="text-muted text-center mt-2 mb-3">
-              <small>Sign in with</small>
+              <small>Vous etes</small>
             </div>
             <Nav
               className="nav-fill flex-column flex-sm-row"
@@ -128,7 +146,7 @@ const Login = () => {
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Or sign in with credentials</small>
+              <small></small>
             </div>
             <Form role="form">
               <FormGroup className="mb-3">
@@ -154,53 +172,25 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
+                    placeholder="Mot de passe"
                     type="password"
                     autoComplete="new-password"
                     onChange={e=>setPassword(e.target.value)}
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="custom-control custom-control-alternative custom-checkbox">
-                <input
-                  className="custom-control-input"
-                  id=" customCheckLogin"
-                  type="checkbox"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor=" customCheckLogin"
-                >
-                  <span className="text-muted">Remember me</span>
-                </label>
-              </div>
+
               <div className="text-center">
                 <Button className="my-4" color="primary" type="button" onClick={(e)=>{login(username,password,role);}}>
-                  Sign in
+                  Se connecter
                 </Button>
               </div>
             </Form>
           </CardBody>
         </Card>
         <Row className="mt-3">
-          <Col xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
-              <small>Forgot password?</small>
-            </a>
-          </Col>
-          <Col className="text-right" xs="6">
-            <a
-              className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
-            >
-              <small>Create new account</small>
-            </a>
-          </Col>
+
+
         </Row>
       </Col>
     </>
