@@ -73,7 +73,7 @@ const Enseignant = (props) => {
         routes={enseignantRoutes}
         logo={{
           innerLink: "/enseignant/index",
-          imgSrc: require("../assets/img/brand/argon-react.png").default,
+          imgSrc: require("../assets/img/brand/logo-blue.png").default,
           imgAlt: "...",
         }}
       />

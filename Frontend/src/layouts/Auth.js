@@ -71,7 +71,7 @@ const Auth = (props) => {
                 <Col lg="5" md="6">
                   {// ecrire qlq chose ici
                   }
-                  <img src={require("../assets/img/brand/logo-ensi.png").default} height="200" width="200"/>
+                  <img src={require("../assets/img/brand/logo-white.png").default} />
                 </Col>
               </Row>
             </div>

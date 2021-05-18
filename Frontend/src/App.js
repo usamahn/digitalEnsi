@@ -64,7 +64,7 @@ return(
             <ProtectedRoute  path="/Etudiant" role="Etudiant" component={(props) => <EtudiantLayout {...props} />} />
 
             <LoggedinRoute path="/auth" component={(props) => <AuthLayout {...props} />} />
-        
+            <Redirect to="/auth" />
         </Switch>
     </UserInfoContext.Provider>
     </BrowserRouter>

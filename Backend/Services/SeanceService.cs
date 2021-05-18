@@ -54,8 +54,11 @@ namespace digitalEnsi.Services
                 if(semestre==0)
                     semestre=Utils.Utils.getSemestreActuelle();
                 var seances = await GetSeancesByIdEnseignant(EnseignantId,année_Universitaire,semestre);
-                var seance =seances.Where(s=>s.groupeId==groupeId&&s.ModuleId==moduleId).SingleOrDefault();
-                Console.WriteLine(seance.SeanceId);
+                Console.WriteLine(seances.Count());
+                var seance =seances.Where(s=>s.groupeId==groupeId&&s.ModuleId==moduleId).FirstOrDefault();
+                var test =seances.Where(s=>s.groupeId==groupeId&&s.ModuleId==moduleId);
+                Console.WriteLine(groupeId);
+                Console.WriteLine(moduleId);
                 int annee =Utils.Utils.getYear(année_Universitaire,semestre);
                 int startMonth;
                 int endMonth;
@@ -84,8 +87,8 @@ namespace digitalEnsi.Services
                 if(semestre==0)
                     semestre=Utils.Utils.getSemestreActuelle();
                 var seances = await GetSeancesByIdEnseignant(EnseignantId,année_Universitaire,semestre);
-                var seance =seances.Where(s=>s.groupeId==groupeId&&s.ModuleId==moduleId).SingleOrDefault();
-                Console.WriteLine(seance.SeanceId);
+                var seance =seances.Where(s=>s.groupeId==groupeId&&s.ModuleId==moduleId).FirstOrDefault();
+                //Console.WriteLine(seance.SeanceId);
                 return seance;
         
                 }
@@ -105,6 +108,12 @@ namespace digitalEnsi.Services
         }
 
         public async Task<Seance> AjouterSeance(Seance seance){
+            if(seance.Année_Universitaire==null){
+                seance.Année_Universitaire=Utils.Utils.getAnnéeUniversitaireActuelle();
+            }
+             if(seance.Semestre==0){
+                seance.Semestre=Utils.Utils.getSemestreActuelle();
+            }
             _context.Seances.Add(seance);
             await _context.SaveChangesAsync();
 

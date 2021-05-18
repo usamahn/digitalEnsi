@@ -165,7 +165,7 @@ const Matieres = () => {
                     <CardTitle className="border-0">
                         <Row>
                         <h3 className="mb-0" color="primary">Matieres semestre 2</h3>        
-                        <Button color="success" type="button" size="sm">Ajouter une matiere</Button>
+                        <AjoutModuleModal niveau={niveau} semestre={2} refetch={fetchModules}/>
                         </Row>
                     </CardTitle>
                     <CardBody>

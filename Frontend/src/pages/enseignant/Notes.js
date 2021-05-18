@@ -149,7 +149,7 @@ const Notes = () => {
                   <hr></hr>
                   
                   <CardBody>
-                  <Table className="align-items-center table-flush" responsive>
+                  <Table className="align-items-center table-flush" >
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Nom et prenom</th>

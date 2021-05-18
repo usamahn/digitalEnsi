@@ -44,7 +44,7 @@ const AjoutUtilisateurModal = (props) => {
                     console.log(person)
                     await props.addUser(person);
                     
-                    //await props.refetch();
+                    await props.refetch();
                     props.setModal(false)
     }
 
@@ -57,7 +57,7 @@ const AjoutUtilisateurModal = (props) => {
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-default">
-                  Type your modal title
+                  Ajouter un utilisateur
                 </h6>
                 <button
                   aria-label="Close"

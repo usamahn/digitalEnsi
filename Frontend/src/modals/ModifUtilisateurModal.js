@@ -91,7 +91,7 @@ const ModifUtilisateurModal = (props) => {
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-default">
-                  Type your modal title
+                  Modifier un utilisateur
                 </h6>
                 <button
                   aria-label="Close"

@@ -106,7 +106,7 @@ const ModifNoteModal = (props) => {
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-default">
-                  Type your modal title
+                  Ajouter une note
                 </h6>
                 <button
                   aria-label="Close"

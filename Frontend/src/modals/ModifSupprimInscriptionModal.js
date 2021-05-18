@@ -111,7 +111,7 @@ const ModifSupprimInscriptionModal = (props) => {
             >
               <div className="modal-header">
                 <h6 className="modal-title" id="modal-title-default">
-                  Type your modal title
+                  Modifier une inscription
                 </h6>
                 <button
                   aria-label="Close"
